@@ -299,7 +299,7 @@ namespace CustomerManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                客戶資料repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

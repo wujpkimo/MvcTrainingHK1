@@ -22,11 +22,11 @@ namespace CustomerManager.Controllers
         public ActionResult Index(int page = 1
             , string sortOrder = ""
             , string currentFilter = ""
-            , string 職稱 = "")
+            , string 職稱 = "", string custName = "")
         {
             if (string.IsNullOrEmpty(currentFilter))
                 currentFilter = 職稱;
-            var 客戶聯絡人 = 客戶聯絡人repo.SerachByCondition(currentFilter);
+            var 客戶聯絡人 = 客戶聯絡人repo.SerachByCondition(currentFilter, custName);
 
             #region ViewBag配置
 
@@ -162,7 +162,7 @@ namespace CustomerManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = 客戶聯絡人repo.Find(id.Value);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -185,7 +185,7 @@ namespace CustomerManager.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "客戶Id", "客戶分類", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "客戶Id", "客戶分類", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -196,7 +196,7 @@ namespace CustomerManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = 客戶聯絡人repo.Find(id.Value);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -219,7 +219,7 @@ namespace CustomerManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                客戶聯絡人repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

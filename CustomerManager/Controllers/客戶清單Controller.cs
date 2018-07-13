@@ -10,107 +10,108 @@ using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
 {
-    public class 客戶類型Controller : BaseController
+    public class 客戶清單Controller : Controller
     {
-        // GET: 客戶類型
+        private Entities db = new Entities();
+
+        // GET: 客戶清單
         public ActionResult Index()
         {
-            return View(客戶類型repo.All().ToList());
+            return View(db.客戶清單.ToList());
         }
 
-        // GET: 客戶類型/Details/5
+        // GET: 客戶清單/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶類型 客戶類型 = 客戶類型repo.Find(id.Value);
-            if (客戶類型 == null)
+            客戶清單 客戶清單 = db.客戶清單.Find(id);
+            if (客戶清單 == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶類型);
+            return View(客戶清單);
         }
 
-        // GET: 客戶類型/Create
+        // GET: 客戶清單/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: 客戶類型/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: 客戶清單/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,客戶分類")] 客戶類型 客戶類型)
+        public ActionResult Create([Bind(Include = "客戶Id,客戶名稱,聯絡人數量,銀行帳戶數量")] 客戶清單 客戶清單)
         {
             if (ModelState.IsValid)
             {
-                客戶類型repo.Add(客戶類型);
-                客戶類型repo.UnitOfWork.Commit();
+                db.客戶清單.Add(客戶清單);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(客戶類型);
+            return View(客戶清單);
         }
 
-        // GET: 客戶類型/Edit/5
+        // GET: 客戶清單/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶類型 客戶類型 = 客戶類型repo.Find(id.Value);
-            if (客戶類型 == null)
+            客戶清單 客戶清單 = db.客戶清單.Find(id);
+            if (客戶清單 == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶類型);
+            return View(客戶清單);
         }
 
-        // POST: 客戶類型/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: 客戶清單/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,客戶分類")] 客戶類型 客戶類型)
+        public ActionResult Edit([Bind(Include = "客戶Id,客戶名稱,聯絡人數量,銀行帳戶數量")] 客戶清單 客戶清單)
         {
             if (ModelState.IsValid)
             {
-                var db = 客戶類型repo.UnitOfWork.Context;
-                db.Entry(客戶類型).State = EntityState.Modified;
+                db.Entry(客戶清單).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(客戶類型);
+            return View(客戶清單);
         }
 
-        // GET: 客戶類型/Delete/5
+        // GET: 客戶清單/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶類型 客戶類型 = 客戶類型repo.Find(id.Value);
-            if (客戶類型 == null)
+            客戶清單 客戶清單 = db.客戶清單.Find(id);
+            if (客戶清單 == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶類型);
+            return View(客戶清單);
         }
 
-        // POST: 客戶類型/Delete/5
+        // POST: 客戶清單/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            客戶類型 客戶類型 = 客戶類型repo.Find(id.Value);
-            客戶類型repo.Delete(客戶類型);
-            客戶類型repo.UnitOfWork.Commit();
+            客戶清單 客戶清單 = db.客戶清單.Find(id);
+            db.客戶清單.Remove(客戶清單);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -118,7 +119,7 @@ namespace CustomerManager.Controllers
         {
             if (disposing)
             {
-                客戶類型repo.UnitOfWork.Context.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }

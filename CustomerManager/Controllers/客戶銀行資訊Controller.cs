@@ -22,9 +22,10 @@ namespace CustomerManager.Controllers
         public ActionResult Index(int page = 1
             , string sortOrder = ""
             , string currentFilter = ""
-            , string 職稱 = "")
+            , string custName = "")
         {
-            var 客戶銀行資訊 = 客戶銀行資訊repo.All();
+            //var 客戶銀行資訊 = 客戶銀行資訊repo.All();
+            var 客戶銀行資訊 = 客戶銀行資訊repo.SerachByCondition(custName);
 
             //var 客戶銀行資訊 = 客戶銀行資訊repo.All().Include(p => p.客戶資料);
             return View(客戶銀行資訊.ToList());
@@ -83,7 +84,7 @@ namespace CustomerManager.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "客戶Id", "客戶分類", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "客戶Id", "客戶分類", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -101,7 +102,7 @@ namespace CustomerManager.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "客戶Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "客戶Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -135,7 +136,7 @@ namespace CustomerManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                客戶銀行資訊repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

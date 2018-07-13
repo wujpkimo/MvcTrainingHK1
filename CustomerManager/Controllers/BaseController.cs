@@ -12,7 +12,8 @@ namespace CustomerManager.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected 客戶管理Entities db = new 客戶管理Entities();
+        //protected 客戶管理Entities db = new 客戶管理Entities();
+        public 客戶清單Repository 客戶清單repo;
 
         public 客戶資料Repository 客戶資料repo;
         public 客戶聯絡人Repository 客戶聯絡人repo;
