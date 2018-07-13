@@ -22,12 +22,16 @@ namespace CustomerManager.Models
         {
             return this.All().FirstOrDefault(p => p.Id == id);
         }
-        public IQueryable<客戶聯絡人> SerachByCondition(string 職稱)
+        public IQueryable<客戶聯絡人> SerachByCondition(string 職稱, string custName="")
         {
             var 客戶聯絡人 = this.All();
             if (!string.IsNullOrEmpty(職稱))
             {
                 客戶聯絡人 = 客戶聯絡人.Where(p => p.職稱==職稱);
+            }
+            if (!string.IsNullOrEmpty(custName))
+            {
+                客戶聯絡人 = 客戶聯絡人.Where(p => p.客戶資料.客戶名稱 == custName);
             }
             return 客戶聯絡人;
         }

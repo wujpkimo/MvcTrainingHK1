@@ -4,7 +4,7 @@
  output extension=".cs"#><#
 
 // This needs to be set to the .edmx file that you want to process.
-string inputFile = FindEDMXFileName(); // @"Model1.edmx";
+string inputFile = FindEDMXFileName(); // @"客戶管理.edmx";
 
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);

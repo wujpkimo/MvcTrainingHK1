@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a03b1dde5ce54ba19e94660be23c7c93" Name="Diagram1">
-        <EntityTypeShape EntityType="客戶管理Model.sysdiagrams" Width="1.5" PointX="1.125" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="客戶管理Model.客戶資料" Width="1.5" PointX="5.625" PointY="2.5" />
-        <EntityTypeShape EntityType="客戶管理Model.客戶銀行資訊" Width="1.5" PointX="7.875" PointY="4.5" />
-        <EntityTypeShape EntityType="客戶管理Model.客戶聯絡人" Width="1.5" PointX="7.875" PointY="1.125" />
-        <EntityTypeShape EntityType="客戶管理Model.客戶類型" Width="1.5" PointX="3.375" PointY="3.375" />
-        <AssociationConnector Association="客戶管理Model.FK_客戶資料_客戶類型" />
-        <AssociationConnector Association="客戶管理Model.FK_客戶銀行資訊_客戶資料" />
-        <AssociationConnector Association="客戶管理Model.FK_客戶聯絡人_客戶資料" />
-        <EntityTypeShape EntityType="客戶管理Model.客戶清單" Width="1.5" PointX="0.75" PointY="0.75" />
+      <Diagram DiagramId="48bdf4d757754af48e54387a8f640de1" Name="Diagram1">
+        <EntityTypeShape EntityType="客戶管理Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="客戶管理Model.客戶資料" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="客戶管理Model.客戶銀行資訊" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="客戶管理Model.客戶聯絡人" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="客戶管理Model.客戶類型" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="客戶管理Model.客戶清單" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="客戶管理Model.FK_客戶資料_客戶類型1" ManuallyRouted="false" />
+        <AssociationConnector Association="客戶管理Model.FK_客戶銀行資訊_客戶資料" ManuallyRouted="false" />
+        <AssociationConnector Association="客戶管理Model.FK_客戶聯絡人_客戶資料" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

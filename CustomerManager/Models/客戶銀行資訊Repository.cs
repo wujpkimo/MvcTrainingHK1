@@ -22,7 +22,16 @@ namespace CustomerManager.Models
         {
             return this.All().FirstOrDefault(p => p.Id == id);
         }
+        public IQueryable<客戶銀行資訊> SerachByCondition(string custName = "")
+        {
+            var 客戶銀行資訊 = this.All();
 
+            if (!string.IsNullOrEmpty(custName))
+            {
+                客戶銀行資訊 = 客戶銀行資訊.Where(p => p.客戶資料.客戶名稱 == custName);
+            }
+            return 客戶銀行資訊;
+        }
     }
 
     public  interface I客戶銀行資訊Repository : IRepository<客戶銀行資訊>

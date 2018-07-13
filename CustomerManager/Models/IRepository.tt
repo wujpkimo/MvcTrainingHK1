@@ -7,7 +7,7 @@
 <#
 
 // This needs to be set to the .edmx file that you want to process.
-string edmxFile = FindEDMXFileName(); // @"Model1.edmx";
+string edmxFile = FindEDMXFileName(); // @"model1.edmx";
 
 CodeGenerationTools code = new CodeGenerationTools(this);
 MetadataLoader loader = new MetadataLoader(this);

@@ -8,7 +8,7 @@ namespace CustomerManager.Models
 
 		public EFUnitOfWork()
 		{
-			Context = new 客戶管理Entities();
+			Context = new Entities();
 		}
 
 		public void Commit()
