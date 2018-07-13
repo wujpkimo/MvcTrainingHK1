@@ -1,0 +1,99 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<CustomerManager.Models.客戶資料>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "客戶資料", FormMethod.Get, null))
+{
+    @*@Html.DropDownList("客戶分類", null, htmlAttributes: new { @class = "form-control" })*@
+    @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewData["客戶分類"], "-- Select One --", htmlAttributes: new { @class = "form-control" })
+
+    @Html.TextBox("custName", null, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
+    @Html.TextBox("custNo", null, new { placeholder = "請輸入統編", @class = "form-control" })
+    <input type="submit" class="btn btn-default" />
+    @Html.ActionLink("Export", "Export客戶資料", new { custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+}
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().客戶名稱)*@
+            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = ViewBag.客戶名稱排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().統一編號)*@
+            @Html.ActionLink("統一編號", "Index", new { sortOrder = ViewBag.統一編號排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().電話)*@
+            @Html.ActionLink("電話", "Index", new { sortOrder = ViewBag.電話排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().傳真)*@
+            @Html.ActionLink("傳真", "Index", new { sortOrder = ViewBag.傳真排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().地址)*@
+            @Html.ActionLink("地址", "Index", new { sortOrder = ViewBag.地址排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().Email)*@
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.Email排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().CreateDate)*@
+            @Html.ActionLink("Create Date", "Index", new { sortOrder = ViewBag.CreateDate排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.FirstOrDefault().客戶類型.客戶分類)*@
+            @Html.ActionLink("客戶分類", "Index", new { sortOrder = ViewBag.客戶分類排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.統一編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.傳真)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.地址)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶類型.客戶分類)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.客戶Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.客戶Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.客戶Id })
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.PagedListPager((IPagedList)Model, x => Url.Action("Index", new { page = x }))
