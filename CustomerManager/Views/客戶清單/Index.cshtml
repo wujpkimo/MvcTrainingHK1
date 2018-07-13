@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CustomerManager.Models.客戶清單>
+
+@{
+    ViewBag.Title = "客戶清單";
+}
+
+<h2>客戶清單</h2>
+
+@Html.ActionLink("客戶資料", "Index", "客戶資料")
+@Html.ActionLink("客戶聯絡人", "Index", "客戶聯絡人")
+@Html.ActionLink("客戶銀行資訊", "Index", "客戶銀行資訊")
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.聯絡人數量)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行帳戶數量)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.客戶名稱)*@
+                @Html.ActionLink(item.客戶名稱, "Index", "客戶資料", new { custName = item.客戶名稱 }, new { })
+            </td>
+            <td>
+                @if (item.聯絡人數量 == 0)
+                {
+                    @Html.DisplayFor(modelItem => item.聯絡人數量)
+                }
+                else
+                {
+                    @Html.ActionLink(item.聯絡人數量.ToString(), "Index", "客戶聯絡人", new { custName = item.客戶名稱 }, new { })
+                }
+            </td>
+            <td>
+                @if (item.銀行帳戶數量 == 0)
+                {
+                    @Html.DisplayFor(modelItem => item.銀行帳戶數量)
+                }
+                else
+                {
+                    @Html.ActionLink(item.銀行帳戶數量.ToString(), "Index", "客戶銀行資訊", new { custName = item.客戶名稱 }, new { })
+                }
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+        </tr>
+    }
+</table>
