@@ -2,124 +2,78 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
 {
-    public class 客戶清單Controller : Controller
+    public class 客戶清單Controller : BaseController
     {
-        private Entities db = new Entities();
+        private int pageSize = 10;
+
+        public 客戶清單Controller()
+        {
+            客戶清單repo = RepositoryHelper.Get客戶清單Repository();
+        }
 
         // GET: 客戶清單
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(db.客戶清單.ToList());
+            return View(客戶清單repo.All());
         }
 
-        // GET: 客戶清單/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Export客戶清單()
         {
-            if (id == null)
+            using (XLWorkbook wb = new XLWorkbook())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            客戶清單 客戶清單 = db.客戶清單.Find(id);
-            if (客戶清單 == null)
-            {
-                return HttpNotFound();
-            }
-            return View(客戶清單);
-        }
+                //取得資料
+                var data = 客戶清單repo
+                    .All()
+                    .Select(c => new { c.客戶名稱, c.聯絡人數量, c.銀行帳戶數量 });
+                //建立sheet
+                var ws = wb.Worksheets.Add("Data", 1);
 
-        // GET: 客戶清單/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+                //修改標題列Style
+                var header = ws.Range("A1:C1");
+                header.Style.Fill.BackgroundColor = XLColor.Green;
+                header.Style.Font.FontColor = XLColor.Yellow;
+                header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-        // POST: 客戶清單/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "客戶Id,客戶名稱,聯絡人數量,銀行帳戶數量")] 客戶清單 客戶清單)
-        {
-            if (ModelState.IsValid)
-            {
-                db.客戶清單.Add(客戶清單);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                //將標題插入到shee中
+                int colIdx = 1;
+                foreach (PropertyInfo colName in data.ElementType.GetProperties())
+                {
+                    ws.Cell(1, colIdx++).Value = colName.Name;
+                }
+                //將資料插入到shee中
+                ws.Cell(2, 1).InsertData(data);
 
-            return View(客戶清單);
-        }
+                //自動設定欄寬
+                for (int i = 1; i <= ws.ColumnCount(); i++)
+                {
+                    ws.Column(i).AdjustToContents();
+                }
 
-        // GET: 客戶清單/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", "List.xlsx");
+                }
             }
-            客戶清單 客戶清單 = db.客戶清單.Find(id);
-            if (客戶清單 == null)
-            {
-                return HttpNotFound();
-            }
-            return View(客戶清單);
-        }
-
-        // POST: 客戶清單/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "客戶Id,客戶名稱,聯絡人數量,銀行帳戶數量")] 客戶清單 客戶清單)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(客戶清單).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(客戶清單);
-        }
-
-        // GET: 客戶清單/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            客戶清單 客戶清單 = db.客戶清單.Find(id);
-            if (客戶清單 == null)
-            {
-                return HttpNotFound();
-            }
-            return View(客戶清單);
-        }
-
-        // POST: 客戶清單/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            客戶清單 客戶清單 = db.客戶清單.Find(id);
-            db.客戶清單.Remove(客戶清單);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                客戶清單repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

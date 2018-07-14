@@ -257,11 +257,9 @@ namespace CustomerManager.Controllers
             using (XLWorkbook wb = new XLWorkbook())
             {
                 //取得資料
-                //var data = 客戶資料repo.All().Select(c =>
                 var data = 客戶資料repo
                     .SerachByCondition(custName, custNo, category)
                     .Select(c => new { c.客戶分類, c.客戶名稱, c.統一編號, c.電話, c.傳真, c.地址, c.Email });
-                //var dt = JsonConvert.DeserializeObject<DataTable>(data.ToString());
                 //建立sheet
                 var ws = wb.Worksheets.Add("Data", 1);
 
