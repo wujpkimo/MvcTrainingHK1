@@ -15,7 +15,6 @@
 </p>
 @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get, null))
 {
-    @*@Html.DropDownList("客戶分類", null, htmlAttributes: new { @class = "form-control" })*@
     @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewData["客戶分類"], "-- Select One --", htmlAttributes: new { @class = "form-control" })
 
     @Html.TextBox("custName", null, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
@@ -26,36 +25,29 @@
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().客戶名稱)*@
-            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = ViewBag.客戶名稱排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @*@Html.ActionLink("客戶名稱", "Index", new { sortOrder = ViewBag.客戶名稱排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })*@
+            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().統一編號)*@
-            @Html.ActionLink("統一編號", "Index", new { sortOrder = ViewBag.統一編號排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("統一編號", "Index", new { sortOrder = "統一編號", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().電話)*@
-            @Html.ActionLink("電話", "Index", new { sortOrder = ViewBag.電話排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().傳真)*@
-            @Html.ActionLink("傳真", "Index", new { sortOrder = ViewBag.傳真排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("傳真", "Index", new { sortOrder = "傳真", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().地址)*@
-            @Html.ActionLink("地址", "Index", new { sortOrder = ViewBag.地址排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("地址", "Index", new { sortOrder = "地址", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().Email)*@
-            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.Email排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().CreateDate)*@
-            @Html.ActionLink("Create Date", "Index", new { sortOrder = ViewBag.CreateDate排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("Create Date", "Index", new { sortOrder = "Create Date", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstOrDefault().客戶類型.客戶分類)*@
-            @Html.ActionLink("客戶分類", "Index", new { sortOrder = ViewBag.客戶分類排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("客戶分類", "Index", new { sortOrder = "客戶分類", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
         </th>
         <th></th>
     </tr>

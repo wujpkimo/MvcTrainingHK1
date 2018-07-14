@@ -6,6 +6,11 @@ namespace CustomerManager.Models
 {   
 	public  class 客戶銀行資訊Repository : EFRepository<客戶銀行資訊>, I客戶銀行資訊Repository
 	{
+        //public IQueryable<客戶銀行資訊> Sort(string sortString,string order="")
+        //{
+        //    var data = this.All().OrderBy(sortString);
+        //    return data;
+        //}
         //複寫讀取全部資料
         public override IQueryable<客戶銀行資訊> All()
         {
