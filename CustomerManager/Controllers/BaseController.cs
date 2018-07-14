@@ -26,10 +26,12 @@ namespace CustomerManager.Controllers
             //base.HandleUnknownAction(actionName);
         }
 
-        public ActionResult Export(IQueryable data)
+        public FileContentResult Export(IQueryable data)
         {
             using (XLWorkbook wb = new XLWorkbook())
             {
+                //IQueryable data = TempData["data"] as IQueryable;
+
                 //建立sheet
                 var ws = wb.Worksheets.Add("Data", 1);
 
@@ -39,14 +41,16 @@ namespace CustomerManager.Controllers
                 {
                     ws.Cell(1, colIdx++).Value = colName.Name;
                 }
-                //將資料插入到shee中
-                ws.Cell(2, 1).InsertData(data);
 
                 //修改標題列Style
-                var header = ws.Range(firstCell: ws.Cell(1, 1), lastCell: (ws.Cell(1, ws.ColumnCount())));
+                //var header = ws.Range(firstCell: ws.Cell(1, 1), lastCell: (ws.Cell(1, ws.ColumnCount())));
+                var header = ws.Range(ws.FirstCellUsed(), ws.LastCellUsed());
                 header.Style.Fill.BackgroundColor = XLColor.Green;
                 header.Style.Font.FontColor = XLColor.Yellow;
                 header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                //將資料插入到sheet中
+                ws.Cell(2, 1).InsertData(data);
 
                 //自動設定欄寬
                 for (int i = 1; i <= ws.ColumnCount(); i++)
