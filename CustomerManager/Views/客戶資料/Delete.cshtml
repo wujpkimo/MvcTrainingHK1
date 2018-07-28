@@ -4,8 +4,13 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
-
+@section breadcrumb{
+    @Html.ActionLink("客戶資料", "Index", "客戶資料")
+    <i class="icon-angle-right"></i>
+    <li>
+        @ViewBag.Title
+    </li>
+}
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>客戶資料</h4>

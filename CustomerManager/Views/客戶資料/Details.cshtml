@@ -4,7 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+@section breadcrumb{
+    @Html.ActionLink("客戶資料", "Index", "客戶資料")
+    <i class="icon-angle-right"></i>
+    <li>
+        @ViewBag.Title
+    </li>
+}
 
 <div>
     <h4>客戶資料</h4>
@@ -79,3 +85,6 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.客戶Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<h3>客戶聯絡人清單</h3>
+@Html.Action("連絡人List", new { id = Model.客戶Id })

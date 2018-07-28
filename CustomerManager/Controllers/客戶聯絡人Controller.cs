@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CustomerManager.Handler;
 using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
@@ -19,6 +21,7 @@ namespace CustomerManager.Controllers
         }
 
         // GET: 客戶聯絡人
+        [TimingActionFilter]
         public ActionResult Index(int page = 1
             , string sortOrder = ""
             , string currentFilter = ""
@@ -187,6 +190,36 @@ namespace CustomerManager.Controllers
             }
             ViewBag.客戶Id = new SelectList(客戶資料repo.All(), "客戶Id", "客戶分類", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
+        }
+
+        /// <summary>
+        /// 批次修改資料
+        /// </summary>
+        /// <param name="data">ClientBathVM</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View =
+            "Error_DbEntityValidationException")]
+        public ActionResult BatchUpdate(客戶聯絡人Batch[] data)
+        {
+            //data[0].ClientId
+            if (ModelState.IsValid)
+            {
+                foreach (var vm in data)
+                {
+                    var client = 客戶聯絡人repo.Find(vm.Id);
+                    client.職稱 = vm.職稱;
+                    client.電話 = vm.電話;
+                    client.手機 = vm.手機;
+                }
+
+                客戶聯絡人repo.UnitOfWork.Commit();
+
+                return RedirectToAction("Index");
+            }
+
+            ViewData.Model = 客戶聯絡人repo.All();
+            return View("Index");
         }
 
         // GET: 客戶聯絡人/Delete/5

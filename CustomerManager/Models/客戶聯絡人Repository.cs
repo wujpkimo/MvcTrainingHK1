@@ -22,6 +22,12 @@ namespace CustomerManager.Models
         {
             return this.All().FirstOrDefault(p => p.Id == id);
         }
+
+        public IQueryable<客戶聯絡人> FindByCust(int id)
+        {
+            return this.All().Where(p => p.客戶Id == id);
+        }
+
         public IQueryable<客戶聯絡人> SerachByCondition(string 職稱, string custName="")
         {
             var 客戶聯絡人 = this.All();

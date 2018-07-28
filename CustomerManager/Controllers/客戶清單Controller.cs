@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
+using CustomerManager.Handler;
 using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
@@ -23,6 +24,7 @@ namespace CustomerManager.Controllers
         }
 
         // GET: 客戶清單
+        [TimingActionFilter]
         public ActionResult Index(int page = 1)
         {
             return View(客戶清單repo.All());

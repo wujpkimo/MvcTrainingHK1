@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CustomerManager.Handler;
 using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
@@ -19,6 +20,7 @@ namespace CustomerManager.Controllers
         }
 
         // GET: 客戶銀行資訊
+        [TimingActionFilter]
         public ActionResult Index(int page = 1
             , string sortOrder = ""
             , string currentFilter = ""

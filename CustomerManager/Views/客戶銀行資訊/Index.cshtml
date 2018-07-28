@@ -4,7 +4,14 @@
     ViewBag.Title = "客戶銀行資訊";
 }
 
-<h2>客戶銀行資訊</h2>
+
+@section breadcrumb{
+    @Html.ActionLink("客戶銀行資訊", "Index", "客戶銀行資訊")
+    <i class="icon-angle-right"></i>
+    <li>
+        @ViewBag.Title
+    </li>
+}
 
 <p>
     @Html.ActionLink("Create New", "Create")

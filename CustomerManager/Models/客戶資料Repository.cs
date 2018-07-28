@@ -30,31 +30,24 @@ namespace CustomerManager.Models
         {
             entity.Active = false;
         }
-
         
-
         public 客戶資料 Find(int id)
         {
             return this.All().FirstOrDefault(p => p.客戶Id == id);
         }
 
-        public IQueryable<客戶資料> SerachSortByCondition(string custName, string custNo, string category, string sortString, string order)
+        public IQueryable<客戶資料> SerachSortByCondition(客戶資料VM VM)
         {
-            var orderExpression = string.Format("{0} {1}", sortString, order);
+            var orderExpression = string.Format("{0} {1}", VM.SortString, VM.Order);
             var data = this.All().OrderBy(orderExpression);
 
-            if (!string.IsNullOrEmpty(custName))
-            {
-                data = data.Where(p => p.客戶名稱.Contains(custName));
-            }
-            if (!string.IsNullOrEmpty(custNo))
-            {
-                data = data.Where(p => p.統一編號.Contains(custNo));
-            }
-            if (!string.IsNullOrEmpty(category))
-            {
-                data = data.Where(p => p.客戶分類 == category);
-            }
+            if (!string.IsNullOrEmpty(VM.CustName))
+                data = data.Where(p => p.客戶名稱.Contains(VM.CustName));
+            if (!string.IsNullOrEmpty(VM.CustNo))
+                data = data.Where(p => p.統一編號.Contains(VM.CustNo));
+            if (!string.IsNullOrEmpty(VM.Category))
+                data = data.Where(p => p.客戶分類 == VM.Category);
+
 
             return data;
         }

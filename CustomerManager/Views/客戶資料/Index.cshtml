@@ -1,9 +1,17 @@
 ﻿@using PagedList.Mvc;
 @using PagedList;
-@model IPagedList<CustomerManager.Models.客戶資料>
+@using CustomerManager.Models;
+@model IPagedList<客戶資料>
+
+@section breadcrumb{
+    @Html.ActionLink("客戶資料", "Index", "客戶資料")
+}
 
 @{
     ViewBag.Title = "客戶資料";
+
+    var queryParams = ViewBag.VM as 客戶資料VM;
+    queryParams.SortString = "客戶名稱";
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
@@ -13,41 +21,41 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@using (Html.BeginForm("Index", "客戶資料", FormMethod.Get, null))
+@using (Html.BeginForm("Index", "客戶資料", FormMethod.Post, null))
 {
-    @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewData["客戶分類"], "-- Select One --", htmlAttributes: new { @class = "form-control" })
+    @Html.DropDownList("Category", (IEnumerable<SelectListItem>)ViewData["客戶分類"], "-- Select One --", htmlAttributes: new { @class = "form-control" })
 
-    @Html.TextBox("custName", null, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
-    @Html.TextBox("custNo", null, new { placeholder = "請輸入統編", @class = "form-control" })
+    @Html.TextBox("CustName", null, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
+    @Html.TextBox("CustNo", null, new { placeholder = "請輸入統編", @class = "form-control" })
     <input type="submit" class="btn btn-default" />
-    @Html.ActionLink("Export", "Export客戶資料", new { custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+    @Html.ActionLink("Export", "Export客戶資料", new 客戶資料VM() { CustName = ViewBag.VM.CustName, CustNo = ViewBag.VM.CustNo, Category = ViewBag.VM.Category })
 }
+
 <table class="table">
     <tr>
         <th>
-            @*@Html.ActionLink("客戶名稱", "Index", new { sortOrder = ViewBag.客戶名稱排序規則, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })*@
-            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("客戶名稱", "Index", queryParams.SetSortString("客戶名稱"))
         </th>
         <th>
-            @Html.ActionLink("統一編號", "Index", new { sortOrder = "統一編號", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("統一編號", "Index", queryParams.SetSortString("統一編號"))
         </th>
         <th>
-            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("電話", "Index", queryParams.SetSortString("電話"))
         </th>
         <th>
-            @Html.ActionLink("傳真", "Index", new { sortOrder = "傳真", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("傳真", "Index", queryParams.SetSortString("傳真"))
         </th>
         <th>
-            @Html.ActionLink("地址", "Index", new { sortOrder = "地址", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("地址", "Index", queryParams.SetSortString("地址"))
         </th>
         <th>
-            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("Email", "Index", queryParams.SetSortString("Email"))
         </th>
         <th>
-            @Html.ActionLink("Create Date", "Index", new { sortOrder = "Create Date", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("Create Date", "Index", queryParams.SetSortString("CreateDate"))
         </th>
         <th>
-            @Html.ActionLink("客戶分類", "Index", new { sortOrder = "客戶分類", order = ViewBag.order, custName = ViewBag.custName, custNo = ViewBag.custNo, category = ViewBag.category })
+            @Html.ActionLink("客戶分類", "Index", queryParams.SetSortString("客戶分類"))
         </th>
         <th></th>
     </tr>
@@ -88,4 +96,4 @@
     }
 </table>
 
-@Html.PagedListPager((IPagedList)Model, x => Url.Action("Index", new { page = x }))
+@Html.PagedListPager((IPagedList)Model, x => Url.Action("Index", queryParams))

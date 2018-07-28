@@ -4,7 +4,15 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+@section breadcrumb{
+    @Html.ActionLink("客戶聯絡人", "Index", "客戶聯絡人")
+    <i class="icon-angle-right"></i>
+    <li>
+        @ViewBag.Title
+    </li>
+}
+
+@*<h2>Create</h2>*@
 
 @using (Html.BeginForm())
 {

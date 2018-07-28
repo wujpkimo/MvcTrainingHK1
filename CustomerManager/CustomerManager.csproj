@@ -189,6 +189,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handler\TimingActionFilter.cs" />
     <Compile Include="Models\EFGeneratePartialClass.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,6 +251,7 @@
     <Compile Include="Models\客戶聯絡人.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶聯絡人Batch.cs" />
     <Compile Include="Models\客戶聯絡人Repository.cs">
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
@@ -262,6 +264,7 @@
     <Compile Include="Models\客戶資料Repository.cs">
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶資料VM.cs" />
     <Compile Include="Models\客戶銀行資訊.cs">
       <DependentUpon>客戶管理.tt</DependentUpon>
     </Compile>
@@ -322,6 +325,7 @@
     <Content Include="Models\客戶管理.edmx.diagram">
       <DependentUpon>客戶管理.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -343,7 +347,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml.bak" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -372,6 +376,7 @@
     <Content Include="Views\客戶清單\Details.cshtml" />
     <Content Include="Views\客戶清單\Edit.cshtml" />
     <Content Include="Views\客戶清單\Index.cshtml" />
+    <Content Include="Views\客戶資料\連絡人List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
