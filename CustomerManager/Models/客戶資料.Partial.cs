@@ -4,10 +4,24 @@ namespace CustomerManager.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
+    using System.Linq;
 
     [MetadataType(typeof(客戶資料MetaData))]
-    public partial class 客戶資料
+    public partial class 客戶資料 : IValidatableObject
     {
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            客戶資料Repository 客戶資料repo = RepositoryHelper.Get客戶資料Repository();
+            客戶資料 客戶資料 = 客戶資料repo
+                .Where(p => p.帳號 == this.帳號 && p.客戶Id != this.客戶Id)
+                .FirstOrDefault();        
+
+            if (this.帳號!=null && 客戶資料!=null)
+            {
+                yield return new ValidationResult("帳號重複！", new string[] { "帳號" });
+            }
+        }
     }
     
     public partial class 客戶資料MetaData
@@ -40,6 +54,13 @@ namespace CustomerManager.Models
         [EmailAddress]
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         public string Email { get; set; }
+
+        [StringLength(12,MinimumLength = 5, ErrorMessage = "帳號長度需在5-12碼之間")]
+        public string 帳號 { get; set; }
+
+        [DataType(DataType.Password)]
+        //[StringLength(12, MinimumLength = 8, ErrorMessage = "密碼長度需在8-12碼之間")]
+        public string 密碼 { get; set; }
 
         //[Required]
         //[HiddenInput(DisplayValue = false)]

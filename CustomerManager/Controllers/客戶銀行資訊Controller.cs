@@ -26,6 +26,11 @@ namespace CustomerManager.Controllers
             , string currentFilter = ""
             , string custName = "")
         {
+            if (Session == null)
+                return RedirectToAction("Login", "Login");
+            else if (Session["Login"] as string != "Admin")
+                return RedirectToAction("Login", "Login");
+
             //var 客戶銀行資訊 = 客戶銀行資訊repo.All();
             var 客戶銀行資訊 = 客戶銀行資訊repo.SerachByCondition(custName);
 

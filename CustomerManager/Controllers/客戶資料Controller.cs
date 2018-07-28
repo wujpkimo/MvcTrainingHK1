@@ -27,6 +27,11 @@ namespace CustomerManager.Controllers
         [TimingActionFilter]
         public ActionResult Index(客戶資料VM VM)
         {
+            if (Session == null)
+                return RedirectToAction("Login", "Login");
+            else if (Session["Login"] as string != "Admin")
+                return RedirectToAction("Login", "Login");
+
             #region 排序
 
             if (!string.IsNullOrEmpty(VM.Order))
@@ -96,12 +101,13 @@ namespace CustomerManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "客戶Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,CreateDate,Active")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "客戶Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,帳號,密碼,CreateDate,Active")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
                 客戶資料.CreateDate = DateTime.UtcNow;
                 客戶資料.Active = true;
+                客戶資料.密碼 = PasswordProcess.GetHashPassword(客戶資料.密碼);
                 客戶資料repo.Add(客戶資料);
                 客戶資料repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
@@ -124,6 +130,7 @@ namespace CustomerManager.Controllers
             {
                 return HttpNotFound();
             }
+            客戶資料.密碼 = "";
             ViewBag.客戶分類 = new SelectList(客戶類型repo.All(), "客戶分類", "客戶分類", 客戶資料.客戶分類);
             return View("Edit", 客戶資料);
         }
@@ -133,10 +140,21 @@ namespace CustomerManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "客戶Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,CreateDate,Active")] 客戶資料 客戶資料)
+        public ActionResult Edit([Bind(Include = "客戶Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,帳號,密碼,CreateDate,Active")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
+                if (客戶資料.密碼 == null)
+                {
+                    客戶資料.密碼 = 客戶資料repo
+                        .Where(p => p.客戶Id == 客戶資料.客戶Id)
+                        .Select(p => p.密碼)
+                        .FirstOrDefault();
+                }
+                else
+                {
+                    客戶資料.密碼 = PasswordProcess.GetHashPassword(客戶資料.密碼);
+                }
                 var db = 客戶資料repo.UnitOfWork.Context;
                 db.Entry(客戶資料).State = EntityState.Modified;
                 db.SaveChanges();

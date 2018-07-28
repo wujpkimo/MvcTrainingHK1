@@ -31,6 +31,8 @@ namespace CustomerManager.Models
         public string Email { get; set; }
         public System.DateTime CreateDate { get; set; }
         public bool Active { get; set; }
+        public string 帳號 { get; set; }
+        public string 密碼 { get; set; }
     
         public virtual 客戶類型 客戶類型 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

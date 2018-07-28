@@ -27,6 +27,11 @@ namespace CustomerManager.Controllers
         [TimingActionFilter]
         public ActionResult Index(int page = 1)
         {
+            if (Session == null)
+                return RedirectToAction("Login", "Login");
+            else if (Session["Login"] as string != "Admin")
+                return RedirectToAction("Login", "Login");
+
             return View(客戶清單repo.All());
         }
 

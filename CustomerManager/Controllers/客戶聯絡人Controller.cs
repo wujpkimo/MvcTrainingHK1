@@ -27,6 +27,11 @@ namespace CustomerManager.Controllers
             , string currentFilter = ""
             , string 職稱 = "", string custName = "")
         {
+            if (Session == null)
+                return RedirectToAction("Login", "Login");
+            else if (Session["Login"] as string != "Admin")
+                return RedirectToAction("Login", "Login");
+
             if (string.IsNullOrEmpty(currentFilter))
                 currentFilter = 職稱;
             var 客戶聯絡人 = 客戶聯絡人repo.SerachByCondition(currentFilter, custName);
