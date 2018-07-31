@@ -43,13 +43,14 @@
                     <span class="icon-bar"></span>
                 </a>
                 @{
-                    if (Session["Login"] == null)
+                    //if (Session["Login"] == null)
+                    if (!User.Identity.IsAuthenticated)
                     {
                         <a class="brand" href="@Url.Action("Index","客戶清單")"><span>Metro</span></a>
                     }
                     else
                     {
-                        <a class="brand" href="@Url.Action("Login","Login")"><span>Logout</span></a>
+                        <a class="brand" href="@Url.Action("Logout","Login")"><span>Logout</span></a>
                     }
                 }
 
@@ -334,9 +335,11 @@
                 <div class="nav-collapse sidebar-nav">
                     <ul class="nav nav-tabs nav-stacked main-menu">
                         @{
-                            if (Session == null)
+                            //if (Session == null)
+                            if (!User.Identity.IsAuthenticated)
                             { }
-                            else if (Session["Login"] as string == "Admin")
+                            //else if (Session["Login"] as string == "Admin")
+                            else if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Index","客戶清單")"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 客戶清單</span></a></li>
                                 <li><a href="@Url.Action("Index","客戶資料")"><i class="icon-envelope"></i><span class="hidden-tablet"> 客戶資料</span></a></li>

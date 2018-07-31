@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<CustomerManager.Models.客戶聯絡人>
-
 @{
     ViewBag.Title = "客戶聯絡人";
 }
 
+@section breadcrumb{
+    @Html.ActionLink("客戶聯絡人", "Index", "客戶聯絡人")
+}
 <h2>客戶聯絡人</h2>
 
 <p>

@@ -11,6 +11,7 @@ using CustomerManager.Models;
 
 namespace CustomerManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class 客戶銀行資訊Controller : BaseController
     {
         public 客戶銀行資訊Controller()
@@ -26,10 +27,10 @@ namespace CustomerManager.Controllers
             , string currentFilter = ""
             , string custName = "")
         {
-            if (Session == null)
-                return RedirectToAction("Login", "Login");
-            else if (Session["Login"] as string != "Admin")
-                return RedirectToAction("Login", "Login");
+            //if (Session == null)
+            //    return RedirectToAction("Login", "Login");
+            //else if (Session["Login"] as string != "Admin")
+            //    return RedirectToAction("Login", "Login");
 
             //var 客戶銀行資訊 = 客戶銀行資訊repo.All();
             var 客戶銀行資訊 = 客戶銀行資訊repo.SerachByCondition(custName);

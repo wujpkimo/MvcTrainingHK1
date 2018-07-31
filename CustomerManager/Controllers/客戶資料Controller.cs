@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CustomerManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class 客戶資料Controller : BaseController
     {
         private int pageSize = 10;
@@ -27,10 +28,10 @@ namespace CustomerManager.Controllers
         [TimingActionFilter]
         public ActionResult Index(客戶資料VM VM)
         {
-            if (Session == null)
-                return RedirectToAction("Login", "Login");
-            else if (Session["Login"] as string != "Admin")
-                return RedirectToAction("Login", "Login");
+            //if (Session == null)
+            //    return RedirectToAction("Login", "Login");
+            //else if (Session["Login"] as string != "Admin")
+            //    return RedirectToAction("Login", "Login");
 
             #region 排序
 
